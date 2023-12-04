@@ -10,6 +10,8 @@ public class BallScript : MonoBehaviour
     public bool inPlay;
     public Transform paddle;
 
+    public Transform explosion;
+
     public float speed;
     void Start()
     {
@@ -38,6 +40,16 @@ public class BallScript : MonoBehaviour
             Debug.Log("Ball hit the bottom of the screen.");
             rb.velocity = Vector2.zero;
             inPlay = false;
+        }
+    }
+
+
+    void OnCollisionEnter2D(Collision2D other){
+        if(other.transform.CompareTag("Brick")){
+            Transform newExplosion =Instantiate(explosion, other.transform.position, other.transform.rotation);
+            Debug.Log("Ball hit a brick.");
+            Destroy(other.gameObject);
+            Destroy(newExplosion.gameObject,2.5f);
         }
     }
 }
